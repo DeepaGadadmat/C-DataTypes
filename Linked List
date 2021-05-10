@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include"node.h"
+#include<stdlib.h>
+
+struct node *head = NULL,
+	    *newptr = NULL,
+	    *tmpptr = NULL,
+	    *prevptr = NULL;
+
+int insert(int d)
+{
+	newptr = malloc(sizeof(struct node));
+	if(newptr == NULL)
+		printf("Error\n");
+	
+	newptr -> data = d;
+	newptr -> np = NULL;
+	
+	if(head == NULL)
+		head = newptr;
+	else
+	{
+		tmpptr = head;
+		prevptr = NULL;
+		while(tmpptr != NULL && tmpptr -> data < d)
+			{
+				prevptr = tmpptr;
+				tmpptr = tmpptr -> np;
+			}
+		if(prevptr != NULL)
+			prevptr -> np = newptr;
+		else
+		{
+			head = newptr;
+		newptr -> np = tmpptr;
+		}
+	}
+}
+void display(struct node *head)
+{
+	struct node *ptr=head;
+	/*while(tmpptr != NULL)
+	{
+	printf("%d\t",tmpptr -> data);
+	tmpptr = tmpptr -> np;
+	}*/
+	if(ptr)
+	{
+		//display(ptr->np);
+		printf("%d\t",ptr->data);
+		display(ptr->np);
+		//printf("\n");
+	}
+	printf("\n");
+}
+void dispLast(struct node *head, int count, int k)
+{
+	struct node *ptr = head;
+	if(!head)
+	return;
+	
+	dispLast(ptr->np, count,k);
+	count++;
+	
+	if(count<=k)
+	{
+		printf("%d\t",ptr->data);
+	}
+}
+int delete(int d)
+{
+	while(tmpptr != NULL && tmpptr -> data < d)
+		{
+			prevptr = tmpptr;
+			tmpptr = tmpptr -> np;
+		}
+	while(tmpptr == NULL || tmpptr -> data != d)
+	{
+		printf("Error no. not present in linked list\n");
+		return 0;
+	}
+	if(prevptr != NULL)
+		prevptr -> np = tmpptr -> np;
+	else
+		head = tmpptr -> np;
+	
+	free(tmpptr);
+	tmpptr = NULL;
+		
+}
+int main()
+{
+	int k=3,count=0;
+	//insert(10);
+	printf("inserting..\n");
+	insert(10);
+	insert(20);
+	insert(30);
+	display(head);
+	insert(25);
+//	delete(25);	
+	display(head);
+	dispLast(head,count,k);
+}
+
+
+  
+  
+  
+  
+  
+  
